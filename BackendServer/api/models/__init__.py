@@ -5,3 +5,4 @@ from .enrollment import Enrollment
 from .gradeItem import GradeItem
 from .grade import Grade
 from .announcement import Announcement
+from .gradeHistory import GradeHistory

@@ -8,4 +8,4 @@ class Announcement(models.Model):
     course = models.ForeignKey('api.Course', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.created_at} {self.title}: {self.description}'
+        return f'Announcement: {self.title}'

@@ -40,6 +40,36 @@ class GradeSerializer(serializers.ModelSerializer):
         model = Grade
         fields = '__all__'
 
+class GradeHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GradeHistory
+        fields = '__all__'
+
+class GradeItemSummarySerializer(serializers.ModelSerializer):
+    grade = serializers.SerializerMethodField()
+    def get_grade(self, obj):
+        request = self.context.get('request')
+        try:
+            grade = Grade.objects.get(grade_item=obj, student=request.user)
+            return grade.grade
+        except Grade.DoesNotExist:
+            return None
+    class Meta:
+        model = GradeItem
+        fields = ['id', 'grade_name', 'max_grade', 'grade']
+
+class CourseSummarySerializer(serializers.ModelSerializer):
+    grade_items = serializers.SerializerMethodField()
+
+    def get_grade_items(self, obj):
+        request = self.context.get('request')
+        grade_items = GradeItem.objects.filter(course=obj)
+        return GradeItemSummarySerializer(grade_items, many=True, context={'request': request}).data
+
+    class Meta:
+        model = Course
+        fields = ['id', 'course_name', 'course_description', 'semester', 'teacher', 'grade_items']
+
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment

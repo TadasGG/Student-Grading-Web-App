@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from api.models import Enrollment, StudentGroup, Course, User
-from api.serializer import EnrollmentSerializer
+from api.serializer import EnrollmentSerializer, CourseSummarySerializer
 from api.permissions import IsAdmin, IsStudent
 import logging
 
@@ -42,6 +42,23 @@ def getMyEnrollments(request):
     paginator = PageNumberPagination()
     result = paginator.paginate_queryset(enrollment, request)
     serializer = EnrollmentSerializer(result, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsStudent])
+def getMyCourseSummary(request):
+    enrollments = Enrollment.objects.filter(student=request.user)
+
+    course_id = request.query_params.get('course_id')
+    if course_id:
+        enrollments = enrollments.filter(course__id=course_id)
+
+    course_ids = enrollments.values_list('course', flat=True)
+    courses = Course.objects.filter(id__in=course_ids)
+
+    paginator = PageNumberPagination()
+    result = paginator.paginate_queryset(courses, request)
+    serializer = CourseSummarySerializer(result, many=True, context={'request': request})
     return paginator.get_paginated_response(serializer.data)
 
 @api_view(['POST'])

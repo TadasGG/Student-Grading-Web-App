@@ -60,14 +60,15 @@ def addGradeItem(request):
     if GradeItem.objects.filter(grade_name=request.data.get('grade_name'), course_id=course_id).exists():
         return Response({'error': 'GRADE_ITEM_ALREADY_EXISTS'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if request.user.role.ADMIN or (request.user.role.TEACHER and course.teacher == request.user):
-        if serializer.is_valid():
-            serializer.save()
-            logger.info(f"Grade item {serializer.data['grade_name']} created by user {request.user} for {course.course_name}")
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
+    if not (request.user.role == 'admin' or (request.user.role == 'teacher' and course.teacher == request.user)):
         return Response({'error': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
+
+    if serializer.is_valid():
+        serializer.save()
+        logger.info(f"Grade item {serializer.data['grade_name']} created by user {request.user} for {course.course_name}")
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated, IsAdmin | IsTeacher])
 def editGradeItem(request, pk):
@@ -76,25 +77,24 @@ def editGradeItem(request, pk):
     except GradeItem.DoesNotExist:
         return Response({'error': 'GRADE_ITEM_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
+    if not (request.user.role == 'admin' or (request.user.role == 'teacher' and grade_item.course.teacher == request.user)):
+        return Response({'error': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
+
     if request.method == 'GET':
         serializer = GradeItemSerializer(grade_item)
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
         serializer = GradeItemSerializer(grade_item, data=request.data, partial=True)
-        if request.user.role.ADMIN or (request.user.role.TEACHER and grade_item.course.teacher == request.user):
-            if serializer.is_valid():
-                serializer.save()
-                logger.info(f"Grade item {serializer.data['grade_name']} updated by user {request.user} for {grade_item.course.course_name}")
-                return Response(serializer.data)
-        else:
-            return Response({'error': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
+        if serializer.is_valid():
+            serializer.save()
+            logger.info(f"Grade item {serializer.data['grade_name']} updated by user {request.user} for {grade_item.course}")
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        if request.user.role.ADMIN or (request.user.role.TEACHER and grade_item.course.teacher == request.user):
-            grade_item.delete()
-            logger.warning(f"Grade item {grade_item.grade_name} deleted by user {request.user} from {grade_item.course.course_name}")
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({'error': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
+        old_grade_item = grade_item
+
+        grade_item.delete()
+        logger.warning(f"Grade item {old_grade_item.grade_name} deleted by user {request.user} from {old_grade_item.course.course_name}")
+        return Response(status=status.HTTP_204_NO_CONTENT)

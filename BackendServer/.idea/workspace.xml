@@ -5,37 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6122837a-4500-49ae-87e0-af92b26f94f4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/migrations/0002_alter_user_email.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/migrations/0003_user_must_change_password.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/migrations/0004_studentgroup_course_user_studentgroup_enrollment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/migrations/0005_rename_studentgroup_user_student_group_gradeitem_and_more.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/migrations/0006_announcement.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/announcement.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/courses.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/enrollment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/grade.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/gradeItem.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/models/studentGroup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/permissions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/auth_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/courses_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/enrollments_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/gradeItem_view.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/views/studentGroup_views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/migrations/0007_gradehistory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/models/gradeHistory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/views/announcements_views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/views/grade_views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendServer/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackendServer/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendServer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackendServer/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendServer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BackendServer/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migrations/0002_remove_student_age_remove_student_email.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/models/announcement.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/models/announcement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/serializer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views/user_views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views/enrollments_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views/enrollments_views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/views/gradeItem_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/views/gradeItem_views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,21 +47,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tadasgrigaitis/Desktop/My Dev Projects/Student-Grading-Web-App/BackendServer/api/views&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/tadasgrigaitis/Desktop/My Dev Projects/Student-Grading-Web-App/BackendServer/api/views",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/api/views" />
@@ -129,7 +110,7 @@
       <workItem from="1774377362001" duration="28006000" />
       <workItem from="1774603338615" duration="265000" />
       <workItem from="1774603612396" duration="10975000" />
-      <workItem from="1774883122484" duration="8135000" />
+      <workItem from="1774883122484" duration="19667000" />
     </task>
     <servers />
   </component>
