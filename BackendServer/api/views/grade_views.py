@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getGrades(request):
-    grade = Grade.objects.all()
+    grade = Grade.objects.select_related('grade_item', 'graded_by', 'student').all()
 
     grade_item_id = request.query_params.get('grade_item_id')
     graded_by = request.query_params.get('graded_by_id')
@@ -61,7 +61,7 @@ def addGrade(request):
 @permission_classes([IsAuthenticated, IsAdmin | IsTeacher])
 def editGrade(request, pk):
     try:
-        grade = Grade.objects.get(pk=pk)
+        grade = Grade.objects.select_related('grade_item__course', 'student').get(pk=pk)
     except Grade.DoesNotExist:
         return Response({'error': 'GRADE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 

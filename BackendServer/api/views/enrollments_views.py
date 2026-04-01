@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getEnrollments(request):
-    enrollment = Enrollment.objects.all()
+    enrollment = Enrollment.objects.select_related('student', 'course').all()
 
     student_id = request.query_params.get('student_id')
     course_id = request.query_params.get('course_id')
@@ -33,7 +33,7 @@ def getEnrollments(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsStudent])
 def getMyEnrollments(request):
-    enrollment = Enrollment.objects.filter(student=request.user)
+    enrollment = Enrollment.objects.select_related('student', 'course').filter(student=request.user)
 
     course_id = request.query_params.get('course_id')
     if course_id:
@@ -47,14 +47,14 @@ def getMyEnrollments(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsStudent])
 def getMyCourseSummary(request):
-    enrollments = Enrollment.objects.filter(student=request.user)
+    enrollments = Enrollment.objects.select_related('course').filter(student=request.user)
 
     course_id = request.query_params.get('course_id')
     if course_id:
         enrollments = enrollments.filter(course__id=course_id)
 
     course_ids = enrollments.values_list('course', flat=True)
-    courses = Course.objects.filter(id__in=course_ids)
+    courses = Course.objects.prefetch_related('gradeitem_set').filter(id__in=course_ids)
 
     paginator = PageNumberPagination()
     result = paginator.paginate_queryset(courses, request)
@@ -65,6 +65,21 @@ def getMyCourseSummary(request):
 @permission_classes([IsAuthenticated, IsAdmin])
 def addEnrollment(request):
     serializer = EnrollmentSerializer(data=request.data)
+
+    if not request.data.get('student'):
+        return Response({'error': 'STUDENT_ID_REQUIRED'}, status=status.HTTP_400_BAD_REQUEST)
+    if not request.data.get('course'):
+        return Response({'error': 'COURSE_ID_REQUIRED'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        User.objects.get(pk=request.data.get('student'))
+    except User.DoesNotExist:
+        return Response({'error': 'STUDENT_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        Course.objects.get(pk=request.data.get('course'))
+    except Course.DoesNotExist:
+        return Response({'error': 'COURSE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
     if Enrollment.objects.filter(student_id=request.data.get('student'), course_id=request.data.get('course')).exists():
         return Response({'error': 'STUDENT_ALREADY_ENROLLED'}, status=status.HTTP_400_BAD_REQUEST)

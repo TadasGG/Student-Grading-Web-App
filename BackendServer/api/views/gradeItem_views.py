@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getGradeItems(request):
-    grade_item = GradeItem.objects.all()
+    grade_item = GradeItem.objects.select_related('course').all()
 
     grade_name = request.query_params.get('grade_name')
     course_id = request.query_params.get('course_id')
@@ -30,7 +30,7 @@ def getGradeItems(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsTeacher])
 def getMyGradeItems(request):
-    grade_item = GradeItem.objects.filter(course__teacher=request.user)
+    grade_item = GradeItem.objects.select_related('course').filter(course__teacher=request.user)
 
     grade_name = request.query_params.get('grade_name')
     course_id = request.query_params.get('course_id')
@@ -73,7 +73,7 @@ def addGradeItem(request):
 @permission_classes([IsAuthenticated, IsAdmin | IsTeacher])
 def editGradeItem(request, pk):
     try:
-        grade_item = GradeItem.objects.get(pk=pk)
+        grade_item = GradeItem.objects.select_related('course').get(pk=pk)
     except GradeItem.DoesNotExist:
         return Response({'error': 'GRADE_ITEM_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 

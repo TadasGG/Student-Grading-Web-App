@@ -20,6 +20,7 @@ def getUsers(request):
     last_name = request.query_params.get('last_name')
     role = request.query_params.get('role')
     student_group = request.query_params.get('student_group')
+    is_active = request.query_params.get('is_active')
 
     if first_name:
         users = users.filter(first_name__icontains=first_name)
@@ -29,6 +30,8 @@ def getUsers(request):
         users = users.filter(role=role)
     if student_group:
         users = users.filter(student_group__id=student_group)
+    if is_active is not None:
+        users = users.filter(is_active=is_active.lower() == 'true')
 
     paginator = PageNumberPagination()
     result = paginator.paginate_queryset(users, request)
@@ -101,8 +104,9 @@ def editUser(request, pk):
         if user == request.user:
             return Response({'error': 'CANNOT_DELETE_YOURSELF'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user.delete()
-        logger.warning(f'{request.user} deleted the user: {user.email}')
+        user.is_active = False
+        user.save()
+        logger.warning(f'{request.user} made the user: {user.email} inactive.')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])

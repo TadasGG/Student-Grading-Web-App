@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getAnnouncements(request):
-    announcements = Announcement.objects.all()
+    announcements = Announcement.objects.select_related('course', 'author').all()
 
     course_id = request.query_params.get('course_id')
     author_id = request.query_params.get('author_id')
@@ -36,9 +36,15 @@ def getAnnouncements(request):
     return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsStudent])
+@permission_classes([IsAuthenticated, IsTeacher | IsStudent])
 def getMyAnnouncements(request):
-    announcements = Announcement.objects.filter(Q(course__enrollment__student=request.user) | Q(course=None))
+
+    if request.user.role == 'student':
+        announcements = Announcement.objects.select_related('course', 'author').filter(Q(course__enrollment__student=request.user) | Q(course=None))
+    elif request.user.role == 'teacher':
+        announcements = Announcement.objects.select_related('course', 'author').filter(Q(course__teacher=request.user) | Q(course=None))
+    else:
+        announcements = Announcement.objects.none()
 
     course_id = request.query_params.get('course_id')
     author_id = request.query_params.get('author_id')
@@ -92,7 +98,7 @@ def addAnnouncement(request):
 @permission_classes([IsAuthenticated, IsAdmin | IsTeacher])
 def editAnnouncement(request, pk):
     try:
-        announcement = Announcement.objects.get(pk=pk)
+        announcement = Announcement.objects.select_related('course').get(pk=pk)
     except Announcement.DoesNotExist:
         return Response({'error': 'ANNOUNCEMENT_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
