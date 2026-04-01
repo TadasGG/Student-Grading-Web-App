@@ -1,10 +1,15 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from django_ratelimit.decorators import ratelimit
+from django_ratelimit.exceptions import Ratelimited
 import logging
 
 logger = logging.getLogger(__name__)
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
     def validate(self, attrs):
         data = super().validate(attrs)
 
@@ -20,3 +25,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+    @ratelimit(key='ip', rate='5/m', method='POST', block=True)
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except Ratelimited:
+            return Response({'error': 'TOO_MANY_REQUESTS'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
