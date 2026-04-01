@@ -36,7 +36,7 @@ def getGrades(request):
 def addGrade(request):
     serializer = GradeSerializer(data=request.data)
 
-    grade_item_id = request.data.get('grade_item_id')
+    grade_item_id = request.data.get('grade_item')
     if not grade_item_id:
         return Response({'error': 'GRADE_ITEM_ID_REQUIRED'}, status=status.HTTP_400_BAD_REQUEST)
     try:

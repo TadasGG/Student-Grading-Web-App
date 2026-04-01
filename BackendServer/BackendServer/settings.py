@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_ratelimit',
     'rest_framework',
     'rest_framework_simplejwt',
     'api'
@@ -174,3 +175,4 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7)
 }
+RATELIMIT_EXCEPTION_CLASS = 'django_ratelimit.exceptions.Ratelimited'

@@ -38,6 +38,9 @@ def getEnrolledStudents(request, pk):
     except Course.DoesNotExist:
         return Response({'error': 'COURSE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
+    if request.user.role == 'teacher' and course.teacher != request.user:
+        return Response({'error': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
+
     enrollments = course.enrollment_set.all()
     paginator = PageNumberPagination()
     result = paginator.paginate_queryset(enrollments, request)
