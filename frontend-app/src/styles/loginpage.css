@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-root {
+    min-height: 100vh;
+    display: flex;
+    background: #f0ede8;
+}
+
+.login-panel {
+    flex: 0 0 480px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 56px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-bg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+            linear-gradient(#d8d4cc 1px, transparent 1px),
+            linear-gradient(90deg, #d8d4cc 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.5;
+}
+
+.bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: #e8e4de;
+}
+
+.logo-mark {
+    width: 40px;
+    height: 40px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.login-heading {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.6px;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+}
+
+.login-sub {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 40px;
+}
+
+.field-group { margin-bottom: 18px; }
+
+.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.field-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1.5px solid #e2e2e2;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #1a1a1a;
+    background: #fafafa;
+    transition: border-color 0.15s, background 0.15s;
+    outline: none;
+}
+.field-input:focus { border-color: #1a1a1a; background: #fff; }
+.field-input::placeholder { color: #bbb; }
+.field-mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+
+.pass-wrap { position: relative; }
+
+.pass-toggle {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    width: 1.75rem;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.15s;
+}
+.pass-toggle:hover { color: #555; }
+
+.error-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff5f5;
+    border: 1.5px solid #fecaca;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.error-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: #ef4444;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+.error-text { font-size: 13.5px; color: #c0392b; line-height: 1.5; }
+
+.submit-btn {
+    width: 100%;
+    height: 46px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+.submit-btn:hover:not(:disabled) { background: #333; }
+.submit-btn:active:not(:disabled) { transform: scale(0.99); }
+.submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.bg-quote {
+    position: relative;
+    z-index: 1;
+    max-width: 340px;
+    text-align: center;
+}
+
+.bg-quote-mark {
+    font-size: 80px;
+    line-height: 1;
+    color: #ccc;
+    font-family: Georgia, serif;
+    margin-bottom: -16px;
+}
+
+.bg-quote-text {
+    font-size: 22px;
+    font-weight: 300;
+    color: #555;
+    letter-spacing: -0.3px;
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .login-bg { display: none; }
+    .login-panel { flex: 1; padding: 48px 28px; }
+}

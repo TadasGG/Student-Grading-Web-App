@@ -1,0 +1,116 @@
+.card {
+    background: #fff;
+    align-self: center;
+    border-radius: 20px;
+    padding: 48px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 360px;
+    width: 100%;
+    margin-top: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #1a1a1a;
+}
+
+.page-title {
+    flex-shrink: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f0ede8;
+    padding: 1.5rem;
+    background: #1a1a1a;
+}
+
+.sub {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.button-primary {
+    margin-top: 8px;
+    height: 40px;
+    padding: 0 24px;
+    background: transparent;
+    border: 1.5px solid #e2e2e2;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    color: #555;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+.button-primary:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+.divider { height: 1px; background: #eee; margin: 28px 0; }
+
+.user-profile {
+    width: 100%;
+    display: flex;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+    margin-top: auto;
+}
+
+.user-profile:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.user-profile:active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+.user-profile-avatar {
+    margin-right: 0.5rem;
+}
+
+.MuiMenu-paper {
+    background: #393939 !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 12px !important;
+    min-width: 180px !important;
+    width: 14% !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+.MuiMenuItem-root {
+    font-size: 12px !important;
+    color: #aaa !important;
+    border-radius: 8px !important;
+    margin: 2px 6px !important;
+}
+
+.MuiMenuItem-root:hover {
+    background: rgba(255,255,255,0.3) !important;
+    color: #fff !important;
+}
+
+.MuiListItemIcon-root {
+    color: #aaa !important;
+    min-width: 32px !important;
+}
+
+.MuiDivider-root {
+    border-color: rgba(255,255,255,0.08) !important;
+}
