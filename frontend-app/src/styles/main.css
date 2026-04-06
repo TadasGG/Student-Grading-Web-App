@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #f0ede8;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.page-root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0.8rem;
+    min-height: 0;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.layout-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.sidenav {
+    width: 240px;
+    flex-shrink: 0;
+    background: #1a1a1a;
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidenav-logo {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0 12px;
+    margin-bottom: 32px;
+}
+
+.sidenav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidenav-links a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+}
+.sidenav-links a:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.sidenav-links a.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+.sidenav-group-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.sidenav-group-toggle:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.sidenav-group-toggle.active { color: #fff; }
+
+.sidenav-sublinks {
+    list-style: none;
+    margin: 2px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    animation: expandDown 0.2s ease;
+}
+
+@keyframes expandDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.sidenav-sublinks a {
+    display: block;
+    padding: 8px 12px 8px 28px;
+    border-radius: 8px;
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.15s, color 0.15s;
+}
+.sidenav-sublinks a:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.sidenav-sublinks a.active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+.sidenav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.topbar {
+    display: none;
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+    background: #1a1a1a;
+    flex-shrink: 0;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.topbar-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+    margin-left: 16px;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .sidenav {
+        position: fixed;
+        top: 3.5rem;
+        left: 0;
+        min-height: 80vh;
+        width: 100%;
+        z-index: 20;
+        transform: translateY(-120%);
+    }
+
+    .sidenav.open { transform: translateY(0); }
+
+    .sidenav-overlay { display: block; }
+
+    .sidenav-overlay.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .topbar { display: flex; }
+
+    .desktop-only { display: none; }
+}
