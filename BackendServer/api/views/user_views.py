@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -14,14 +15,22 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getUsers(request):
-    users = User.objects.all()
+    users = User.objects.all().order_by('last_name', 'first_name')
 
+    q = request.query_params.get('q')
     first_name = request.query_params.get('first_name')
     last_name = request.query_params.get('last_name')
     role = request.query_params.get('role')
     student_group = request.query_params.get('student_group')
     is_active = request.query_params.get('is_active')
 
+    if q:
+        users = users.filter(
+            Q(email__icontains=q) |
+            Q(first_name__icontains=q) |
+            Q(last_name__icontains=q) |
+            Q(role__icontains=q)
+        )
     if first_name:
         users = users.filter(first_name__icontains=first_name)
     if last_name:

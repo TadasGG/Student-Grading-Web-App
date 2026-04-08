@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage, HomePage, NotFound } from "./pages";
+import {LoginPage, HomePage, NotFound, UsersPage} from "./pages";
 import { useState, useEffect } from "react";
 
 import Layout from "./components/Layout";
@@ -42,11 +42,12 @@ export default function App() {
                     }
                 >
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/users" element={<UsersPage />} />
                 </Route>
 
                 <Route path="/404" element={<NotFound />} />
 
-                {/* Catch-all: redirect unknown paths to home */}
+                {/* Catch-all: redirect unknown paths to 404 */}
                 <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
         </BrowserRouter>

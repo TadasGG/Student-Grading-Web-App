@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
+@import "tailwindcss";
 
 .login-root {
     min-height: 100vh;
@@ -104,7 +102,7 @@
 .pass-toggle {
     position: absolute;
     right: 0.5rem;
-    top: 50%;
+    top: 48%;
     transform: translateY(-50%);
     background: none;
     border: none;

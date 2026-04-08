@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 const titles = {
     "/": "Dashboard",
     "/login": "Log In",
+    "/users": "Users",
     "/404": "404",
     "/students": "Students",
     "/groups": "Groups",

@@ -4,7 +4,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 import "../styles/loginpage.css"
-import {IconButton, ListItemIcon} from "@mui/material";
+import {IconButton, ListItemIcon, TextField} from "@mui/material";
 import {usePageTitle} from "../hooks/usePageTitle.jsx";
 
 export default function LoginPage() {
@@ -72,29 +72,29 @@ export default function LoginPage() {
 
                     <form onSubmit={handleSubmit} noValidate>
                         <div className="field-group">
-                            <label className="field-label" htmlFor="username">Email</label>
-                            <input
+                            <TextField
                                 id="username"
                                 type="text"
+                                size="small"
                                 className="field-input"
+                                label="Email"
                                 placeholder="you@example.com"
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
-                                autoComplete="username"
                             />
                         </div>
 
                         <div className="field-group">
-                            <label className="field-label" htmlFor="password">Password</label>
                             <div className="pass-wrap">
-                                <input
+                                <TextField
                                     id="password"
                                     type={showPass ? "text" : "password"}
+                                    size="small"
                                     className="field-input"
+                                    label="Password"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
-                                    autoComplete="current-password"
                                 />
                                 <button
                                     type="button"
