@@ -22,6 +22,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         data['first_name'] = self.user.first_name
         data['last_name'] = self.user.last_name
+        data['must_change_password'] = self.user.must_change_password
 
         logger.log(logging.INFO, f"User {self.user} logged in.")
 
@@ -83,4 +84,5 @@ class MeView(APIView):
             'role': request.user.role,
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
+            'must_change_password': request.user.must_change_password
         })

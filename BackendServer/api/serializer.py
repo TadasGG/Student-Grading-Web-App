@@ -4,13 +4,14 @@ from api.models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'role', 'student_group']
+        fields = ['id', 'first_name', 'last_name', 'email', 'role', 'student_group', 'is_active']
+
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password', 'role']
+        fields = ['first_name', 'last_name', 'email', 'username', 'role', 'student_group', 'is_active']
+
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user

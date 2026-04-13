@@ -39,7 +39,7 @@ def getUsers(request):
         users = users.filter(role=role)
     if student_group:
         users = users.filter(student_group__id=student_group)
-    if is_active is not None:
+    if is_active is not None and is_active != '':
         users = users.filter(is_active=is_active.lower() == 'true')
 
     paginator = PageNumberPagination()
@@ -73,9 +73,13 @@ def getMyProfile(request):
 def addUser(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        logger.info(f'{request.user} created a new user: {serializer.data["email"]}')
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user = serializer.save()
+        temp_password = generate_temp_password()
+        user.set_password(temp_password)
+        user.must_change_password = True
+        user.save()
+        logger.info(f'{request.user} created a new user: {user.email}')
+        return Response({'temporary_password': temp_password}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -93,7 +97,7 @@ def editUser(request, pk):
 
 
     elif request.method == 'PATCH':
-        tracked_fields = ['role', 'email', 'student_group']
+        tracked_fields = ['first_name', 'last_name', 'role', 'email', 'student_group']
         old_values = {field: getattr(user, field) for field in tracked_fields}
 
         if user == request.user and 'role' in request.data and request.data['role'] != user.role:

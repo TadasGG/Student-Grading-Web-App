@@ -48,7 +48,7 @@ export default function UserProfile() {
                     <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
                     My profile
                 </MenuItem>
-                <Divider />
+                <Divider sx={{ borderColor: 'rgba(255,255,255,0.2) !important' }} />
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
                     Sign out

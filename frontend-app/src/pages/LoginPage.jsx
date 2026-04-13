@@ -5,7 +5,7 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 
 import "../styles/loginpage.css"
 import {IconButton, ListItemIcon, TextField} from "@mui/material";
-import {usePageTitle} from "../hooks/usePageTitle.jsx";
+import {usePageTitle} from "../hooks/usePageTitle.js";
 
 export default function LoginPage() {
     const navigate = useNavigate();

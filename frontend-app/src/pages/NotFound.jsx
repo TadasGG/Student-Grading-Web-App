@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {usePageTitle} from "../hooks/usePageTitle.jsx";
+import {usePageTitle} from "../hooks/usePageTitle.js";
 import {useEffect} from "react";
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
@@ -17,8 +17,8 @@ export default function HomePage() {
         document.title = `${title} — DigiGrade`;
     }, [title]);
 
-    const returnHome = () => {
-        navigate("/");
+    const goBack = () => {
+        navigate(-1);
     };
 
     return (
@@ -27,7 +27,7 @@ export default function HomePage() {
                 <ListItemIcon><ErrorOutlinedIcon sx={{ fontSize: 55, color: grey[900]  }} /></ListItemIcon>
                 <h1 className="title">404</h1>
                 <p className="sub">The page you were looking for does not exist!</p>
-                <button className="button-primary" onClick={returnHome}>Return Home</button>
+                <button className="button-primary" onClick={goBack}>Return</button>
             </div>
         </div>
     );

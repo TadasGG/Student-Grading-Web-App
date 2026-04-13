@@ -2,7 +2,7 @@ import * as React from "react";
 
 export default function Filters({ className, children, onApply, onReset }) {
     const handleSubmit = (e) => {
-        e.preventDefault(); // prevent page reload
+        e.preventDefault();
         onApply?.();
     };
 
@@ -20,7 +20,7 @@ export default function Filters({ className, children, onApply, onReset }) {
 
             <div className="flex gap-2">
                 <button
-                    className="bg-[#1a1a1ad3] text-[#fff] rounded-md p-2 my-2 w-full"
+                    className="button-primary my-2 w-full"
                     onClick={onApply}
                 >
                     Apply Filters
@@ -28,7 +28,7 @@ export default function Filters({ className, children, onApply, onReset }) {
 
                 {onReset && (
                     <button
-                        className="bg-[#1a1a1ad3] text-[#fff] rounded-md p-2 my-2 w-full"
+                        className="button-primary my-2 w-full"
                         onClick={onReset}
                         type="button"
                     >

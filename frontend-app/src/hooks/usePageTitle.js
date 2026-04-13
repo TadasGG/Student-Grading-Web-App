@@ -20,5 +20,8 @@ export function usePageTitle() {
     // handle dynamic routes like /groups/1
     if (pathname.match(/^\/groups\/\d+$/)) return "Group Details";
 
+    // handle dynamic routes like /users/1
+    if (pathname.match(/^\/users\/\d+$/)) return "User Details";
+
     return titles[pathname] || "DigiGrade";
 }

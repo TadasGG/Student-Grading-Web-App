@@ -78,6 +78,13 @@ LOGGING = {
         'handlers': ['console', 'file'],
         'level': 'INFO',
     },
+    'loggers': {
+        'api': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
 }
 
 # Application definition
@@ -209,8 +216,7 @@ SILENCED_SYSTEM_CHECKS = ["django_ratelimit.E003", "django_ratelimit.W001"]
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://192.168.1.136:5173"
+    "http://localhost:5173"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
