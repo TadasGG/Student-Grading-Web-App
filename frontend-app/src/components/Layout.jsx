@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import SideNav from "./SideNav";
-import { usePageTitle } from "../hooks/usePageTitle";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 import "../styles/main.css";
+import "../styles/loginpage.css";
 import PageTitle from "./PageTitle.jsx";
 
 export default function Layout() {
