@@ -44,7 +44,7 @@ export default function UserProfile() {
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
                 transformOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-                <MenuItem onClick={() => { handleClose(); navigate("/profile"); }}>
+                <MenuItem onClick={() => { handleClose(); navigate("/myprofile"); }}>
                     <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
                     My profile
                 </MenuItem>

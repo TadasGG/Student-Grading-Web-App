@@ -38,7 +38,7 @@ export default function NewUser() {
         last_name: '',
         email: '',
         username: '',
-        role: null,
+        role: '',
         student_group: null,
         is_active: true,
     });

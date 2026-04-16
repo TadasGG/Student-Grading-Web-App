@@ -39,7 +39,6 @@ body {
     padding: 32px 16px;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidenav-logo {

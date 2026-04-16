@@ -4,7 +4,11 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 import "../styles/loginpage.css"
-import {IconButton, ListItemIcon, TextField} from "@mui/material";
+import {IconButton, ListItemIcon, TextField, InputLabel, FormControl, OutlinedInput, InputAdornment} from "@mui/material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+
 import {usePageTitle} from "../hooks/usePageTitle.js";
 
 export default function LoginPage() {
@@ -86,28 +90,30 @@ export default function LoginPage() {
 
                         <div className="field-group">
                             <div className="pass-wrap">
-                                <TextField
-                                    id="password"
-                                    type={showPass ? "text" : "password"}
-                                    size="small"
-                                    className="field-input"
-                                    label="Password"
-                                    placeholder="••••••••"
-                                    value={password}
-                                    onChange={e => setPassword(e.target.value)}
-                                />
-                                <button
-                                    type="button"
-                                    className="pass-toggle"
-                                    onClick={() => setShowPass(v => !v)}
-                                    aria-label={showPass ? "Hide password" : "Show password"}
-                                >
-                                    {showPass ? (
-                                        <ListItemIcon><VisibilityOffOutlinedIcon fontSize="small" /></ListItemIcon>
-                                    ) : (
-                                        <ListItemIcon><VisibilityOutlinedIcon fontSize="small" /></ListItemIcon>
-                                    )}
-                                </button>
+                                <FormControl size="small" className="field-input">
+                                    <InputLabel>Password</InputLabel>
+                                    <OutlinedInput
+                                        id="password"
+                                        type={showPass ? "text" : "password"}
+                                        placeholder="••••••••"
+                                        value={password}
+                                        onChange={e => setPassword(e.target.value)}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label={
+                                                        showPass ? 'hide the password' : 'display the password'
+                                                    }
+                                                    onClick={() => setShowPass(v => !v)}
+                                                    edge="end"
+                                                >
+                                                    {showPass ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl>
                             </div>
                         </div>
 

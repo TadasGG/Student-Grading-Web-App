@@ -4,3 +4,4 @@ export { default as NotFound } from "./NotFound";
 export { default as UsersPage } from "./users/UsersPage";
 export { default as EditUser } from "./users/EditUser";
 export { default as NewUser } from "./users/NewUser";
+export { default as MyProfile } from "./MyProfile";

@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route, Navigate, useNavigate} from "react-router-dom";
-import {LoginPage, HomePage, NotFound, UsersPage, EditUser, NewUser} from "./pages";
+import {LoginPage, HomePage, NotFound, UsersPage, EditUser, NewUser, MyProfile} from "./pages";
 import { useState, useEffect } from "react";
 
 import Layout from "./components/Layout";
@@ -17,8 +17,6 @@ function ProtectedRoute({ children }) {
                     res.json().then(data => {
                         localStorage.setItem("user", JSON.stringify(data));
                         if (data.must_change_password) {
-                            setAuth("ok");
-                            console.log("PST: " + data.must_change_password);
                             navigate("/changepassword");
                         }
                         setAuth("ok");
@@ -51,6 +49,7 @@ export default function App() {
                         }
                     >
                         <Route path="/" element={<HomePage />} />
+                        <Route path="/myprofile" element={<MyProfile />} />
                         <Route path="/users" element={<UsersPage />} />
                         <Route path="/users/:id" element={<EditUser />} />
                         <Route path="/users/new" element={<NewUser />} />

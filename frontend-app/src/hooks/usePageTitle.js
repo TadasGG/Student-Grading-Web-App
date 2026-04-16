@@ -8,7 +8,7 @@ const titles = {
     "/students": "Students",
     "/groups": "Groups",
     "/grades": "Grades",
-    "/profile": "My Profile",
+    "/myprofile": "My Profile",
 };
 
 export function usePageTitle() {
