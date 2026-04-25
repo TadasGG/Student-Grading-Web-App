@@ -38,23 +38,8 @@ export default function SideNav({ isOpen, onClose }) {
                             </ul>
                         )}
                     </li>
-
                     <li>
-                        <button
-                            className="sidenav-group-toggle"
-                            onClick={() => setCoursesOpen(v => !v)}
-                        >
-                            Courses
-                            {coursesOpen ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
-                        </button>
-                        {coursesOpen && (
-                            <ul className="sidenav-sublinks">
-                                <li><NavLink to="/courses" onClick={onClose}>All courses</NavLink></li>
-                                <li><NavLink to="/enrollments" onClick={onClose}>Enrollments</NavLink></li>
-                            </ul>
-                        )}
-                    </li>
-                    <li>
+                        <NavLink to="/courses" onClick={onClose}>Courses</NavLink>
                         <NavLink to="/users" end onClick={onClose}>Users</NavLink>
                     </li>
                 </ul>

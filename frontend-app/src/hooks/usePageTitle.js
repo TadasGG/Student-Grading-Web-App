@@ -3,7 +3,9 @@ import { useLocation } from "react-router-dom";
 const titles = {
     "/": "Dashboard",
     "/login": "Log In",
+    "/changepassword": "Change your password",
     "/users": "Users",
+    "/courses": "Courses",
     "/404": "404",
     "/students": "Students",
     "/groups": "Groups",
@@ -22,6 +24,9 @@ export function usePageTitle() {
 
     // handle dynamic routes like /users/1
     if (pathname.match(/^\/users\/\d+$/)) return "User Details";
+
+    // handle dynamic routes like /courses/1
+    if (pathname.match(/^\/courses\/\d+$/)) return "Course Details";
 
     return titles[pathname] || "DigiGrade";
 }

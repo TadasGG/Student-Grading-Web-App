@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,17 +14,38 @@ logger = logging.getLogger(__name__)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def getCourses(request):
-    courses = Course.objects.all()
+    courses = Course.objects.select_related('teacher').order_by('course_name')
 
+    if request.query_params.get('semesters') == 'true':
+        semesters = Course.objects.values_list('semester', flat=True).distinct().order_by('semester')
+        return Response(list(semesters))
+
+    if request.query_params.get('teachers') == 'true':
+        teachers = Course.objects.select_related('teacher').values(
+            'teacher__id',
+            'teacher__first_name',
+            'teacher__last_name'
+        ).distinct().order_by('teacher__last_name', 'teacher__first_name')
+        return Response(list(teachers))
+
+    q = request.query_params.get('q')
     semester = request.query_params.get('semester')
     teacher_id = request.query_params.get('teacher')
-    created_at = request.query_params.get('created_at')
+    date_from = request.query_params.get('date_from')
+    date_to = request.query_params.get('date_to')
+    if q:
+        courses = courses.filter(
+            Q(course_name__icontains=q) |
+            Q(course_description__icontains=q)
+        )
     if semester:
         courses = courses.filter(semester=semester)
     if teacher_id:
         courses = courses.filter(teacher__id=teacher_id)
-    if created_at:
-        courses = courses.filter(created_at=created_at)
+    if date_from:
+        courses = courses.filter(created_at__gte=date_from)
+    if date_to:
+        courses = courses.filter(created_at__lte=date_to)
 
     paginator = PageNumberPagination()
     result = paginator.paginate_queryset(courses, request)

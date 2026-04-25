@@ -9,6 +9,7 @@ urlpatterns = [
     path('user/<int:pk>/changepass', resetUserPassword, name='resetUserPassword'),
     path('myprofile', getMyProfile, name='getMyProfile'),
     path('myprofile/changepassword', changeMyPassword, name='changeMyPassword'),
+    path('myprofile/changeforcedpassword', changeForcedPassword, name='changeForcedPassword'),
     ###
     ### StudentGroup viewer URLs ###
     path('studentGroups', getGroups, name='getGroups'),

@@ -17,7 +17,7 @@ import {
 import * as React from "react";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-export default function EditUser() {
+export default function EditCourse() {
     const current_user = JSON.parse(localStorage.getItem("user"));
 
 
@@ -100,14 +100,14 @@ export default function EditUser() {
             },
             body: JSON.stringify(form)
         })
-        .then(res => {
-            if (res.ok) {
-                showAlert('User updated successfully.', 'success');
-            } else {
-                showAlert('Something went wrong.', 'error');
-                throw new Error('failed');
-            }
-        })
+            .then(res => {
+                if (res.ok) {
+                    showAlert('User updated successfully.', 'success');
+                } else {
+                    showAlert('Something went wrong.', 'error');
+                    throw new Error('failed');
+                }
+            })
     }
 
     function handleSubmit() {

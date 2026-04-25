@@ -127,6 +127,9 @@ export default function MyProfile() {
         })
             .then(res => {
                 if (res.ok) {
+                    passwordForm.current_password = ''
+                    passwordForm.new_password = ''
+                    passwordForm.confirm_password = ''
                     showAlert('Password changed successfully.', 'success');
                 } else {
                     showAlert('Something went wrong.', 'error');
@@ -271,7 +274,7 @@ export default function MyProfile() {
                         </FormControl>
                     </div>
                     <div className="flex justify-center gap-10 mt-5 md:justify-end md:gap-2 md:mt-auto">
-                        <button className="button-primary min-w-fit my-2 md:w-1/8 w-1/6" onClick={handleChangePassword}>Submit</button>
+                        <button type="submit" className="button-primary min-w-fit my-2 md:w-1/8 w-1/6" onClick={handleChangePassword}>Submit</button>
                     </div>
                 </div>
             </div>

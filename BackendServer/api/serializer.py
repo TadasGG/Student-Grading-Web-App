@@ -27,6 +27,13 @@ class StudentGroupSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CourseSerializer(serializers.ModelSerializer):
+    teacher_name = serializers.SerializerMethodField()
+
+    def get_teacher_name(self, obj):
+        if obj.teacher:
+            return f"{obj.teacher.first_name} {obj.teacher.last_name}"
+        return None
+
     class Meta:
         model = Course
         fields = '__all__'

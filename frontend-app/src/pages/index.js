@@ -1,7 +1,10 @@
 export { default as LoginPage } from "./LoginPage";
 export { default as HomePage } from "./HomePage";
-export { default as NotFound } from "./NotFound";
+export { default as NotFound } from "./misc/NotFound.jsx";
 export { default as UsersPage } from "./users/UsersPage";
 export { default as EditUser } from "./users/EditUser";
 export { default as NewUser } from "./users/NewUser";
 export { default as MyProfile } from "./MyProfile";
+export { default as ChangePassword } from "./misc/ChangePassword";
+export { default as CoursesPage } from "./courses/CoursesPage";
+export { default as EditCourse } from "./courses/EditCourse";

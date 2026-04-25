@@ -9,8 +9,7 @@ import {
     TableBody,
     TableCell,
     TextField,
-    MenuItem, IconButton, DialogTitle, DialogContent,
-    DialogActions, Dialog
+    IconButton, MenuItem, DialogTitle, DialogContent, DialogActions, Dialog
 } from "@mui/material";
 import * as React from 'react';
 import {useNavigate, useSearchParams} from "react-router-dom";
@@ -18,94 +17,82 @@ import Filters from "../../components/Filters.jsx";
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import {useAlert} from "../../context/AlertContext.jsx";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
-export default function UsersPage() {
-    const [users, setUsers] = React.useState([]);
+export default function CoursesPage() {
+    const [courses, setCourses] = React.useState([]);
     const [count, setCount] = React.useState(0);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('q') || '';
-    const first_name = searchParams.get('first_name') || '';
-    const last_name = searchParams.get('last_name') || '';
-    const role = searchParams.get('role') || '';
-    const is_active = searchParams.get('is_active') || '';
+    const semester = searchParams.get('semester') || '';
+    const teacher = searchParams.get('teacher') || '';
+    const date_from = searchParams.get('date_from') || '';
+    const date_to = searchParams.get('date_to') || '';
     const page = parseInt(searchParams.get('page') || '1') - 1;
-
-    const current_user = JSON.parse(localStorage.getItem("user"));
 
     const navigate = useNavigate();
 
     const { showAlert } = useAlert();
 
-    const [selectedUser, setSelectedUser] = React.useState(null);
+    const [selectedCourse, setSelectedCourse] = React.useState(null);
     const [activeConfirmOpen, setActiveConfirmOpen] = React.useState(false);
 
     const columns = [
-        { id: 'first_name', label: 'Name', minWidth: 0 },
-        { id: 'last_name', label: 'Surname', minWidth: 0 },
-        { id: 'email', label: 'Email', minWidth: 0 },
-        { id: 'role', label: 'Role', minWidth: 0 },
-        { id: 'is_active', label: 'Is Active', minWidth: 0 },
+        { id: 'course_name', label: 'Name', minWidth: 0 },
+        { id: 'course_description', label: 'Description', minWidth: 0 },
+        { id: 'semester', label: 'Semester', minWidth: 0 },
+        { id: 'teacher_name', label: 'Teacher', minWidth: 0 },
+        { id: 'created_at', label: 'Created at', minWidth: 0 },
         { id: 'action_buttons', label: '', minWidth: 0},
     ];
 
-    const [localFilters, setLocalFilters] = React.useState({
-        q: query,
-        first_name: first_name,
-        last_name: last_name,
-        role: role,
-        is_active: is_active
-    });
-
-    const roles = [
-        {
-            value: '',
-            label: '--',
-        },
-        {
-            value: 'Student',
-            label: 'Student',
-        },
-        {
-            value: 'Teacher',
-            label: 'Teacher',
-        },
-        {
-            value: 'Admin',
-            label: 'Admin',
-        },
-    ];
-
-    const activity = [
-        {
-            value: '',
-            label: '--',
-        },
-        {
-            value: true,
-            label: 'Yes',
-        },
-        {
-            value: false,
-            label: 'No',
-        }
-    ];
-
-    function fetchUsers() {
-        return fetch(`/api/user?page=${page + 1}&first_name=${first_name}&last_name=${last_name}&role=${role}&q=${query}&is_active=${is_active}`, {
+    const [semesters, setSemesters] = React.useState([]);
+    React.useEffect(() => {
+        fetch(`/api/courses?semesters=true`, {
             credentials: 'include'
         })
-        .then(res => res.json())
-        .then(data => {
-            setUsers(data.results)
-            setCount(data.count)
+            .then(res => res.json())
+            .then(data => {
+                setSemesters(data)
+            })
+    }, []);
+
+    const [teachers, setTeachers] = React.useState([]);
+    React.useEffect(() => {
+        fetch(`/api/courses?teachers=true`, {
+            credentials: 'include'
         })
+            .then(res => res.json())
+            .then(data => {
+                setTeachers(data)
+            })
+    }, []);
+
+    const [localFilters, setLocalFilters] = React.useState({
+        q: query,
+        semester: semester,
+        teacher: teacher,
+        date_from: date_from,
+        date_to: date_to,
+    });
+
+    function fetchCourses() {
+        return fetch(`/api/courses?semester=${page + 1}&semester=${semester}&teacher=${teacher}&date_from=${date_from}&date_to=${date_to}&q=${query}`, {
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCourses(data.results)
+                setCount(data.count)
+            })
     }
 
     React.useEffect(() => {
-        fetchUsers();
+        fetchCourses();
     }, [searchParams]);
 
     const handleChangePage = (event, newPage) => {
@@ -117,10 +104,10 @@ export default function UsersPage() {
 
         setLocalFilters({
             q: '',
-            first_name: '',
-            last_name: '',
-            role: '',
-            is_active: '',
+            semester: '',
+            teacher: '',
+            date_from: '',
+            date_to: '',
         });
     };
 
@@ -136,20 +123,20 @@ export default function UsersPage() {
     const applyFilters = () => {
         const params = { page: 1 };
 
-        if (localFilters.first_name) params.first_name = localFilters.first_name;
-        if (localFilters.last_name) params.last_name = localFilters.last_name;
-        if (localFilters.role) params.role = localFilters.role;
-        if (localFilters.is_active !== '') params.is_active = localFilters.is_active;
+        if (localFilters.semester) params.semester = localFilters.semester;
+        if (localFilters.teacher) params.teacher = localFilters.teacher;
+        if (localFilters.date_from) params.date_from = localFilters.date_from;
+        if (localFilters.date_to) params.date_to = localFilters.date_to;
 
         setSearchParams(params);
     };
 
-    function editUser(userId) {
-        navigate(`/users/${userId}`);
-    }
+    function editCourse(courseId) {
+        navigate(`/courses/${courseId}`);
+    };
 
-    function deleteUser(userId) {
-        return fetch(`/api/user/${userId}`, {
+    function deleteCourse(courseId) {
+        return fetch(`/api/courses/${courseId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -158,8 +145,8 @@ export default function UsersPage() {
         })
         .then(res => {
             if (res.ok) {
-                fetchUsers().then(
-                    showAlert('User deactivated successfully.', 'success')
+                fetchCourses().then(
+                    showAlert('Course deleted successfully.', 'success')
                 );
             } else {
                 showAlert('Something went wrong.', 'error');
@@ -172,65 +159,67 @@ export default function UsersPage() {
         <div className="page-root">
             <div className="flex flex-col md:flex-row gap-3 min-h-0">
                 <div className="flex flex-col md:w-1/4 md:order-2 gap-3">
-                    <button className="button-primary hidden md:block" onClick={() => navigate('/users/new')}><AddCircleIcon sx={{ color: "#fff" }}/> New User</button>
+                    <button className="button-primary hidden md:block" onClick={() => navigate('/courses/new')}><AddCircleIcon sx={{ color: "#fff" }}/> New Course</button>
 
                     <Filters onApply={applyFilters} onReset={resetFilters}>
                         <div className="flex md:flex-col gap-2">
                             <TextField
+                                select
                                 className="w-1/2 md:w-full"
-                                value={localFilters.first_name}
+                                value={localFilters.semester}
                                 onChange={(e) =>
-                                    setLocalFilters({ ...localFilters, first_name: e.target.value })
+                                    setLocalFilters({ ...localFilters, semester: e.target.value })
                                 }
-                                label="Name Search..."
-                                placeholder="..."
+                                label="Semester"
                                 size="small"
-                            />
+                            >
+                                <MenuItem value="">--</MenuItem>
+                                {semesters.map((option) => (
+                                    <MenuItem key={option} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                            <TextField
+                                select
+                                className="w-1/2 md:w-full"
+                                value={localFilters.teacher}
+                                onChange={(e) =>
+                                    setLocalFilters({ ...localFilters, teacher: e.target.value })
+                                }
+                                label="Teacher"
+                                size="small"
+                            >
+                                <MenuItem value="">--</MenuItem>
+                                {teachers.map((option) => (
+                                    <MenuItem key={option.teacher__id} value={option.teacher__id}>
+                                        {option.teacher__first_name} {option.teacher__last_name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </div>
 
                         <div className="flex md:flex-col gap-2">
-                            <TextField
-                                className="w-1/2 md:w-full"
-                                value={localFilters.last_name}
-                                onChange={(e) =>
-                                    setLocalFilters({ ...localFilters, last_name: e.target.value })
+                            <DatePicker
+                                label="Date From"
+                                format="DD/MM/YYYY"
+                                value={localFilters.date_from ? dayjs(localFilters.date_from) : null}
+                                onChange={(newValue) =>
+                                    setLocalFilters({ ...localFilters, date_from: newValue ? newValue.format('YYYY-MM-DD') : '' })
                                 }
-                                label="Surname Search..."
-                                placeholder="..."
-                                size="small"
+                                slotProps={{ textField: { size: 'small', className: 'w-full' } }}
                             />
-                            <TextField
-                                select
-                                className="w-1/2 md:w-full"
-                                value={localFilters.role}
-                                onChange={(e) =>
-                                    setLocalFilters({ ...localFilters, role: e.target.value })
+
+                            <DatePicker
+                                label="Date To"
+                                format="DD/MM/YYYY"
+                                value={localFilters.date_to ? dayjs(localFilters.date_to) : null}
+                                onChange={(newValue) =>
+                                    setLocalFilters({ ...localFilters, date_to: newValue ? newValue.format('YYYY-MM-DD') : '' })
                                 }
-                                label="Role"
-                                size="small"
-                            >
-                                {roles.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                            <TextField
-                                select
-                                className="w-1/2 md:w-full"
-                                value={localFilters.is_active}
-                                onChange={(e) =>
-                                    setLocalFilters({ ...localFilters, is_active: e.target.value })
-                                }
-                                label="Is Active"
-                                size="small"
-                            >
-                                {activity.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                                slotProps={{ textField: { size: 'small', className: 'w-full' } }}
+                            />
                         </div>
                     </Filters>
                 </div>
@@ -243,7 +232,7 @@ export default function UsersPage() {
                                 onChange={(e) =>
                                     setLocalFilters({ ...localFilters, q: e.target.value })
                                 }
-                                label="Search..."
+                                label="Search"
                                 placeholder="..."
                                 size="small"
                             />
@@ -251,8 +240,9 @@ export default function UsersPage() {
                             <button className="button-primary" onClick={applySearch}><SearchIcon /></button>
                         </form>
 
-                        <button className="button-primary md:hidden block min-w-fit" onClick={() => navigate('/users/new')}><AddCircleIcon sx={{ color: "#fff" }}/> New User</button>
+                        <button className="button-primary md:hidden block min-w-fit" onClick={() => navigate('/courses/new')}><AddCircleIcon sx={{ color: "#fff" }}/> New Course</button>
                     </div>
+
                     <TableContainer className="rounded-md border" sx={{ flex: 1, overflow: 'auto' }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -269,25 +259,28 @@ export default function UsersPage() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {users.length === 0 ? (
+                                {courses.length === 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={columns.length} align="center">
                                             No Data...
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    users.map((user) => (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={user.id}>
+                                    courses.map((course) => (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={course.id}>
                                             {columns.map((column) => (
                                                 <TableCell key={column.id} align={column.align}>
                                                     {column.id === 'action_buttons'
                                                         ? <div className="flex w-fit">
-                                                            <IconButton onClick={() => editUser(user.id)}><EditIcon /></IconButton>
-                                                            <IconButton disabled={!user.is_active || current_user.id === user.id} onClick={() => { setSelectedUser(user); setActiveConfirmOpen(true); }}><DeleteIcon /></IconButton>
+                                                            <IconButton onClick={() => editCourse(course.id)}><EditIcon /></IconButton>
+                                                            <IconButton onClick={() => { setSelectedCourse(course); setActiveConfirmOpen(true); }}><DeleteIcon /></IconButton>
                                                         </div>
-                                                        : column.id === 'is_active'
-                                                            ? user.is_active ? 'Yes' : 'No'
-                                                            : user[column.id]}
+                                                        : column.id === 'created_at'
+                                                            ? new Date(course.created_at).toLocaleDateString()
+                                                        : course[column.id] ?? (
+                                                            <p className="italic text-gray-400">N/A</p>
+                                                        )
+                                                    }
                                                 </TableCell>
                                             ))}
                                         </TableRow>
@@ -310,12 +303,12 @@ export default function UsersPage() {
             <Dialog open={activeConfirmOpen} onClose={() => setActiveConfirmOpen(false)}>
                 <DialogTitle>Confirm</DialogTitle>
                 <DialogContent>
-                    <p>Are you sure you want to deactivate this user?</p>
+                    <p>Are you sure you want to delete this course?</p>
                 </DialogContent>
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <button className="button-primary min-w-fit m-3 md:w-1/12 w-1/6" onClick={() => setActiveConfirmOpen(false)}>Cancel</button>
                     <button className="button-primary min-w-fit m-3 md:w-1/12 w-1/6" onClick={() => {
-                        deleteUser(selectedUser.id);
+                        deleteCourse(selectedCourse.id);
                         setActiveConfirmOpen(false);
                     }}>Confirm</button>
                 </DialogActions>

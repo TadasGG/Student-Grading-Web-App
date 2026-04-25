@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import {usePageTitle} from "../hooks/usePageTitle.js";
+import {usePageTitle} from "../../hooks/usePageTitle.js";
 import {useEffect} from "react";
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
-import "../styles/main.css"
-import "../styles/components.css"
+import "../../styles/main.css"
+import "../../styles/components.css"
 import {ListItemIcon} from "@mui/material";
 import {grey} from "@mui/material/colors";
 

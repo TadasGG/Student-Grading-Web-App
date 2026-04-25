@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from api.models.user import User
 from api.serializer import UserSerializer, RegisterSerializer, MyProfileSerializer
-from api.permissions import IsAdmin
+from api.permissions import IsAdmin, MustChangePassword
 import logging
 from api.utils import generate_temp_password
 
@@ -131,6 +131,21 @@ def changeMyPassword(request):
 
     if not request.user.check_password(current_password):
         return Response({'error': 'INCORRECT_PASSWORD'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if new_password != confirm_password:
+        return Response({'error': 'PASSWORDS_DO_NOT_MATCH'}, status=status.HTTP_400_BAD_REQUEST)
+
+    request.user.set_password(new_password)
+    request.user.save()
+
+    logger.info(f'{request.user} changed their password')
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, MustChangePassword])
+def changeForcedPassword(request):
+    new_password = request.data.get('new_password')
+    confirm_password = request.data.get('confirm_password')
 
     if new_password != confirm_password:
         return Response({'error': 'PASSWORDS_DO_NOT_MATCH'}, status=status.HTTP_400_BAD_REQUEST)
